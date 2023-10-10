@@ -91,6 +91,17 @@ function Gnb()
     cmd('Git checkout -b '..branchName)
 end
 
+-- Custom function to change the name of the current Git branch
+function Gbn()
+    local currentBranch = vim.fn.system("git rev-parse --abbrev-ref HEAD"):gsub("\n", "") -- Get the name of the current branch
+    local newBranchName = vim.fn.input('New name for branch [' .. currentBranch .. ']: ')
+    if newBranchName ~= "" then
+        vim.fn.system(string.format('git branch -m %s', newBranchName))
+    else
+        print("No new branch name provided. No changes made.")
+    end
+end
+
 -- Custom function to revert a file added to Git
 function Grf()
     local file = vim.fn.expand('%:p')
@@ -107,4 +118,5 @@ map('n', '<leader>grf', ':lua Grf()<CR>', { noremap = true, silent = true })
 
 map('n', '<leader>gcp', ':lua Gcp()<CR>', {noremap = true, silent = true})
 map('n', '<leader>gnb', ':lua Gnb()<CR>', {noremap = true, silent = true})
+map('n', '<leader>gbn', ':lua Gbn()<CR>', { noremap = true, silent = true })
 
