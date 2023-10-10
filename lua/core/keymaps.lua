@@ -1,21 +1,9 @@
 local cmd = vim.cmd
 local api = vim.api
 local map = api.nvim_set_keymap
+local command = api.nvim_command
 local opts = {noremap = true, silent = true}
 
--- Custom function for Git commit and push (Gcp)
-function Gcp()
-    local commitMessage = vim.fn.input('Commit message: ')
-    cmd 'Git add .'
-    cmd('Git commit -m "' .. commitMessage .. '"')
-    cmd 'Git push'
-end
-
--- Custom function for Git new branch (Gnb)
-function Gnb()
-    local branchName = vim.fn.input('New branch name: ')
-    cmd('Git checkout -b '..branchName)
-end
 
 -----------------------------------------------------------
 -- General keybindings
@@ -88,16 +76,34 @@ map('v', '<leader>y', ':lua CopyWithLineBreaks()<CR>', { noremap = true, silent 
 -----------------------------------------------------------
 -- Git
 -----------------------------------------------------------
-vim.api.nvim_command('command! Gpr Git pull --rebase')
-map('n', '<leader>gpr', ':Gpr<CR>', opts)
 
-function GitRevertFile()
+-- Custom function for Git commit and push (Gcp)
+function Gcp()
+    local commitMessage = vim.fn.input('Commit message: ')
+    cmd 'Git add .'
+    cmd('Git commit -m "' .. commitMessage .. '"')
+    cmd 'Git push'
+end
+
+-- Custom function for Git new branch (Gnb)
+function Gnb()
+    local branchName = vim.fn.input('New branch name: ')
+    cmd('Git checkout -b '..branchName)
+end
+
+-- Custom function to revert a file added to Git
+function Grf()
     local file = vim.fn.expand('%:p')
     vim.fn.system(string.format('git reset %s', file))
+    vim.fn.system(string.format('git checkout -- %s', file))
     vim.cmd('edit!')
 end
 
-map('n', '<leader>gr', ':lua GitRevertFile()<CR>', { noremap = true, silent = true})
+command('command! Gpr Git pull --rebase')
+
+map('n', '<leader>gpr', ':Gpr<CR>', opts)
+
+map('n', '<leader>grf', ':lua Grf()<CR>', { noremap = true, silent = true })
 
 map('n', '<leader>gcp', ':lua Gcp()<CR>', {noremap = true, silent = true})
 map('n', '<leader>gnb', ':lua Gnb()<CR>', {noremap = true, silent = true})
