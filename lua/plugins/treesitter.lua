@@ -1,14 +1,14 @@
 -- nvim-treesitter configuration
 require'nvim-treesitter.configs'.setup {
-  -- One of "all", "maintained" (parsers with maintainers), or a list of languages
-  ensure_installed = "all",
-  -- This enables the highlight module, which highlights the code using the parser
+  ensure_installed = { "javascript", "typescript", "lua" },
   highlight = {
     enable = true,
-    -- List of language that will be disabled
+    disable = {},
+  },  
+  fold = {
+    enable = true,
     disable = {},
   },
-  -- Additional modules and their options go here
 }
 
 -- Set colors for standard highlight groups

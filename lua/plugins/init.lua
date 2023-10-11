@@ -35,6 +35,7 @@ require('packer').startup(function(use)
         requires = {'nvim-tree/nvim-web-devicons'},
     }
 
+    -- CMP
     use {
     'hrsh7th/nvim-cmp',
     requires = {
@@ -44,6 +45,16 @@ require('packer').startup(function(use)
         'hrsh7th/cmp-cmdline',
         }
     }
+    use "rafamadriz/friendly-snippets"
+
+    -- Autopairs
+    use {
+      "windwp/nvim-autopairs",
+        config = function() require("nvim-autopairs").setup {} end
+    }
+    
+    -- NVIM Comments
+    use 'terrortylor/nvim-comment'
 
     -- Color Schema
     use 'EdenEast/nightfox.nvim'
@@ -62,13 +73,13 @@ require('packer').startup(function(use)
 
     -- Prettier 
     use {
-    'prettier/vim-prettier',
-    run = 'yarn install',
-    ft = {
-      'javascript', 'typescript', 'css', 'less', 'scss', 
-      'json', 'graphql', 'markdown', 'vue', 'svelte', 
-      'yaml', 'html'
-    }
+      'prettier/vim-prettier',
+      run = 'yarn install',
+      ft = {
+        'javascript', 'typescript', 'css', 'less', 'scss', 
+        'json', 'graphql', 'markdown', 'vue', 'svelte', 
+        'yaml', 'html'
+      }
     }
 
 end)
@@ -81,3 +92,4 @@ require('plugins.nvim-cmp')
 require('plugins.lualine')
 -- require('plugins.neogit')
 require('plugins.prettier')
+require('nvim_comment').setup()

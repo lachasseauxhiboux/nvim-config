@@ -64,10 +64,16 @@ _G.find_files = function()
     builtin.find_files(opts)
 end
 
+function FindReferencesUnderCursor()
+    builtin.lsp_references()
+end
+
 -- Telescope keymappings
 map('n', '<leader>ff', '<cmd>Telescope find_files<cr>', opts)
 map('n', '<leader>fg', '<cmd>Telescope live_grep<cr>', opts)
 map('n', '<leader>fb', '<cmd>Telescope buffers<cr>', opts)
 map('n', '<leader>fh', '<cmd>Telescope help_tags<cr>', opts)
-map('n', '<leader>f', '<cmd>lua find_files()<cr>', opts)
+map('n', '<leader>fif', '<cmd>lua find_files()<cr>', opts)
+map('n', '<leader>fin', ':Telescope current_buffer_fuzzy_find<cr>', opts)
+map('n', '<leader>u', ':lua FindReferencesUnderCursor()<cr>', opts)
 
