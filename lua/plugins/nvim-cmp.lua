@@ -12,6 +12,22 @@ cmp.setup({
         end,
     },
     mapping = {
+      ["<Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+              cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+          else
+              fallback()
+          end
+      end, { "i", "s", "c" }),
+      
+      ["<S-Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+              cmp.select_prev_item({ behavior = cmp.SelectBehavior.Select })
+          else
+              fallback()
+          end
+      end, { "i", "s", "c" }),
+
       ['<C-Space>'] = cmp.mapping.complete(),
       ['<C-e>'] = cmp.mapping.close(),
       ['<CR>'] = cmp.mapping.confirm({ select = true }),

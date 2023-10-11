@@ -6,3 +6,7 @@ augroup Prettier
 augroup END
 ]]
 
+vim.cmd [[
+  autocmd Filetype * setlocal foldmethod=expr foldexpr=nvim_treesitter#foldexpr()
+]]
+
