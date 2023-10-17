@@ -1,6 +1,6 @@
 -- nvim-treesitter configuration
 require'nvim-treesitter.configs'.setup {
-  ensure_installed = { "javascript", "typescript", "lua" },
+  ensure_installed = { "javascript", "typescript", "lua", "go" },
   highlight = {
     enable = true,
     disable = {},
@@ -11,12 +11,18 @@ require'nvim-treesitter.configs'.setup {
   },
 }
 
--- Set colors for standard highlight groups
-vim.cmd[[highlight TSConstant guifg=#F8F8F2 gui=none]]  -- Light gray for constants
-vim.cmd[[highlight TSString guifg=#E6DB74 gui=none]]  -- Yellow for strings
-vim.cmd[[highlight TSBoolean guifg=#AE81FF gui=none]]  -- Purple for booleans
-vim.cmd[[highlight TSNumber guifg=#AE81FF gui=none]]  -- Purple for numbers
-vim.cmd[[highlight TSComment guifg=#75715E gui=none]]  -- Dark gray for comments
-vim.cmd[[highlight TSOperator guifg=#F92672 gui=none]]  -- Pink for operators
-vim.cmd[[highlight TSKeyword guifg=#66D9EF gui=none]]  -- Light blue for keywords
+vim.wo.foldmethod = "expr"
+vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
+vim.wo.foldenable = false -- turn off the folding
+
+-- Highlight the @foo.bar capture group with the "Identifier" highlight group
+vim.cmd("hi @constant.typescript guifg=#F8F8F2")
+vim.cmd("hi @string.typescript guifg=#E6DB74")
+vim.cmd("hi @boolean.typescript guifg=#AE81FF")
+vim.cmd("hi @number.typescript guifg=#AE81FF")
+vim.cmd("hi @comment.typescript guifg=#75715E")
+vim.cmd("hi @operator.typescript guifg=#F92672")
+vim.cmd("hi @keyword.typescript guifg=#66D9EF")
+
+
 

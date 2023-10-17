@@ -22,7 +22,7 @@ require('packer').startup(function(use)
         -- 'run' specifies a command to be run after the plugin is installed. ':TSUpdate' ensures that
         -- the tree-sitter parsers are always up-to-date.
         run = ':TSUpdate'
-    }
+    } 
 
     -- Requires for different plugins
     use 'nvim-lua/plenary.nvim'
@@ -67,13 +67,13 @@ require('packer').startup(function(use)
 
     -- LUA line
     use {
-      'nvim-lualine/lualine.nvim',
+     'nvim-lualine/lualine.nvim',
       requires = { 'nvim-tree/nvim-web-devicons', opt = true }
     }
 
     -- Prettier 
     use {
-      'prettier/vim-prettier',
+     'prettier/vim-prettier',
       run = 'yarn install',
       ft = {
         'javascript', 'typescript', 'css', 'less', 'scss', 

@@ -81,3 +81,18 @@ lspconfig.angularls.setup{
         debounce_text_changes = 150,
     }
 }
+
+lspconfig.gopls.setup{
+    on_attach = function(client, bufnr)
+        require('cmp_nvim_lsp').setup({
+        }, bufnr)
+    end,
+    settings = {
+        gopls = {
+            analyses = {
+                unusedparams = true,
+            },
+            staticcheck = true,
+        },
+    },
+}
