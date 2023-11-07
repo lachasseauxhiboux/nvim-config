@@ -1,49 +1,37 @@
 local cmd = vim.cmd
-local api = vim.api
-local map = api.nvim_set_keymap
-local command = api.nvim_command
-local opts = {noremap = true, silent = true}
+local keymap = vim.keymap.set
+local command = vim.api.nvim_create_user_command
+local opts = { noremap = true, silent = true }
 
-
------------------------------------------------------------
 -- General keybindings
------------------------------------------------------------
--- Switch to command-line mode
-map('n', '<leader>pv', ':Ex<CR>', opts)
+keymap('n', '<leader>pv', ':Ex<CR>', opts)
 
------------------------------------------------------------
 -- Indentation
------------------------------------------------------------
--- Indent selected text and reselect it
-map('v', '<', '<gv', opts)
-map('v', '>', '>gv', opts)
+keymap('v', '<', '<gv', opts)
+keymap('v', '>', '>gv', opts)
 
------------------------------------------------------------
 -- Disabling arrow keys
------------------------------------------------------------
--- Disable up arrow
-map('', '<up>', '<nop>', opts)
--- Disable down arrow
-map('', '<down>', '<nop>', opts)
--- Disable left arrow
-map('', '<left>', '<nop>', opts)
--- Disable right arrow
-map('', '<right>', '<nop>', opts)
+keymap('', '<up>', '<nop>', opts)
+keymap('', '<down>', '<nop>', opts)
+keymap('', '<left>', '<nop>', opts)
+keymap('', '<right>', '<nop>', opts)
 
------------------------------------------------------------
--- BUFFER
------------------------------------------------------------
--- Switch to next buffer with C-J
-map('n', '<C-J>', ':bnext<CR>', opts)
--- Switch to previous buffer with C-K
-map('n', '<C-K>', ':bprevious<CR>', opts)
--- Delete the current buffer with C-D
-map('n', '<C-D>', ':bd<CR>', opts)
+-- Buffer navigation
+keymap('n', '<C-J>', ':bnext<CR>', opts)
+keymap('n', '<C-K>', ':bprevious<CR>', opts)
+keymap('n', '<C-D>', ':bd<CR>', opts)
 
------------------------------------------------------------
--- NVIM TREE
------------------------------------------------------------
+-- Diagnostic configuration
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = true,
+  update_in_insert = false, -- add this to prevent updates while in insert mode
+})
 
+-- Diagnostic keymap
+keymap('n', '<Leader>d', vim.diagnostic.open_float, opts)
+
+-- Nvim Tree
 local function toggle_tree()
     local tree = require'nvim-tree.view'
     if tree.win_open() then
@@ -53,70 +41,58 @@ local function toggle_tree()
     end
 end
 
-map('n', '<leader>n', ':lua toggle_tree()<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>n', toggle_tree, opts)
 
-function OpenTerminalInFileDir()
-  local path = vim.fn.expand('%:p:h')  -- Get the current file's directory
-  print("Opening terminal in:", path)
-  local cmd = string.format('gnome-terminal --working-directory=%s', path)
-  vim.fn.system(cmd)
+-- Terminal
+local function open_terminal_in_file_dir()
+  local path = vim.fn.expand('%:p:h')
+  vim.fn.system('gnome-terminal --working-directory=' .. path)
 end
 
-map('n', '<leader>t', ':lua OpenTerminalInFileDir()<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>t', open_terminal_in_file_dir, opts)
 
------------------------------------------------------------
 -- Clipboard
------------------------------------------------------------
-function CopyWithLineBreaks()
+local function copy_with_line_breaks()
     vim.cmd('normal! ggVG"+y')
 end
 
-map('v', '<leader>y', ':lua CopyWithLineBreaks()<CR>', { noremap = true, silent = true })
+keymap('v', '<leader>y', copy_with_line_breaks, opts)
 
------------------------------------------------------------
 -- Git
------------------------------------------------------------
-
--- Custom function for Git commit and push (Gcp)
-function Gcp()
+local function gcp()
     local commitMessage = vim.fn.input('Commit message: ')
     cmd 'Git add .'
     cmd('Git commit -m "' .. commitMessage .. '"')
     cmd 'Git push'
 end
 
--- Custom function for Git new branch (Gnb)
-function Gnb()
+local function gnb()
     local branchName = vim.fn.input('New branch name: ')
     cmd('Git checkout -b '..branchName)
 end
 
--- Custom function to change the name of the current Git branch
-function Gbn()
-    local currentBranch = vim.fn.system("git rev-parse --abbrev-ref HEAD"):gsub("\n", "") -- Get the name of the current branch
+local function gbn()
+    local currentBranch = vim.fn.system("git rev-parse --abbrev-ref HEAD"):gsub("\n", "")
     local newBranchName = vim.fn.input('New name for branch [' .. currentBranch .. ']: ')
     if newBranchName ~= "" then
-        vim.fn.system(string.format('git branch -m %s', newBranchName))
+        vim.fn.system('git branch -m ' .. newBranchName)
     else
         print("No new branch name provided. No changes made.")
     end
 end
 
--- Custom function to revert a file added to Git
-function Grf()
+local function grf()
     local file = vim.fn.expand('%:p')
-    vim.fn.system(string.format('git reset %s', file))
-    vim.fn.system(string.format('git checkout -- %s', file))
-    vim.cmd('edit!')
+    vim.fn.system('git reset ' .. file)
+    vim.fn.system('git checkout -- ' .. file)
+    cmd('edit!')
 end
 
-command('command! Gpr Git pull --rebase')
+command('Gpr', 'Git pull --rebase', {})
 
-map('n', '<leader>gpr', ':Gpr<CR>', opts)
-
-map('n', '<leader>grf', ':lua Grf()<CR>', { noremap = true, silent = true })
-
-map('n', '<leader>gcp', ':lua Gcp()<CR>', {noremap = true, silent = true})
-map('n', '<leader>gnb', ':lua Gnb()<CR>', {noremap = true, silent = true})
-map('n', '<leader>gbn', ':lua Gbn()<CR>', { noremap = true, silent = true })
+keymap('n', '<leader>gpr', ':Gpr<CR>', opts)
+keymap('n', '<leader>grf', grf, opts)
+keymap('n', '<leader>gcp', gcp, opts)
+keymap('n', '<leader>gnb', gnb, opts)
+keymap('n', '<leader>gbn', gbn, opts)
 
