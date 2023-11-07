@@ -35,6 +35,17 @@ require('packer').startup(function(use)
         requires = {'nvim-tree/nvim-web-devicons'},
     }
 
+    -- LuaSnip
+    use({
+      "L3MON4D3/LuaSnip",
+      -- follow latest release.
+      tag = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+      -- install jsregexp (optional!:).
+      run = "make install_jsregexp",
+    })
+
+    use "rafamadriz/friendly-snippets"
+
     -- CMP
     use {
     'hrsh7th/nvim-cmp',
@@ -43,9 +54,9 @@ require('packer').startup(function(use)
         'hrsh7th/cmp-buffer',
         'hrsh7th/cmp-path',
         'hrsh7th/cmp-cmdline',
+        'saadparwaiz1/cmp_luasnip'
         }
-    }
-    use "rafamadriz/friendly-snippets"
+    }    
 
     -- Autopairs
     use {

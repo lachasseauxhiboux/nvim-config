@@ -1,14 +1,13 @@
 local cmp = require'cmp'
 local lspconfig = require('lspconfig')
+local luasnip = require 'luasnip'
+require('luasnip.loaders.from_vscode').lazy_load()
 
 cmp.setup({
     snippet = {
         -- REQUIRED - you must specify a snippet engine
         expand = function(args)
-            -- Uncomment the line corresponding to the snippet engine you are using.
-            -- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users.
-            require('luasnip').lsp_expand(args.body) -- For `luasnip` users.
-            -- vim.fn["UltiSnips#Anon"](args.body) -- For `ultisnips` users.
+            luasnip.lsp_expand(args.body)
         end,
     },
     mapping = {
@@ -34,12 +33,10 @@ cmp.setup({
     },
  
     sources = {
+        { name = 'luasnip' },  -- For luasnip users. Uncomment if you are using luasnip.
         { name = 'nvim_lsp' },
         { name = 'buffer' },
         { name = 'path' },
-        -- { name = 'vsnip' },  -- For vsnip users. Uncomment if you are using vsnip.
-        { name = 'luasnip' },  -- For luasnip users. Uncomment if you are using luasnip.
-        -- { name = 'ultisnips' },  -- For ultisnips users. Uncomment if you are using ultisnips.
     }
 })
 
