@@ -18,6 +18,7 @@ require('packer').startup(function(use)
     use {
         -- The plugin repository "nvim-treesitter/nvim-treesitter" is the source of the plugin
         'nvim-treesitter/nvim-treesitter',
+        'nvim-treesitter/nvim-treesitter-angular',
         
         -- 'run' specifies a command to be run after the plugin is installed. ':TSUpdate' ensures that
         -- the tree-sitter parsers are always up-to-date.
