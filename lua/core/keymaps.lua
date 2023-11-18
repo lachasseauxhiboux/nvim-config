@@ -116,3 +116,8 @@ keymap('n', '<leader>gcp', gcp, opts)
 keymap('n', '<leader>gnb', gnb, opts)
 keymap('n', '<leader>gbn', gbn, opts)
 
+-- DLV
+
+keymap('n', '<Leader>bp', ':DlvToggleBreakpoint<CR>', opt)
+keymap('n', '<Leader>deb', ':DlvDebug<CR>', opt)
+

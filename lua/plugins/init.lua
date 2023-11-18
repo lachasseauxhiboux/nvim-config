@@ -12,6 +12,9 @@ require('packer').startup(function(use)
     -- Packer can manage itself
     use 'wbthomason/packer.nvim'
 
+    -- ICONS
+    use 'nvim-tree/nvim-web-devicons'
+
     -- LSP and related plugins
     use 'neovim/nvim-lspconfig'
     use 'jose-elias-alvarez/nvim-lsp-ts-utils'
@@ -70,6 +73,9 @@ require('packer').startup(function(use)
 
     -- Color Schema
     use 'EdenEast/nightfox.nvim'
+
+    -- Golang Delve
+    use 'sebdah/vim-delve'
 
     -- Git
     use 'sindrets/diffview.nvim'
