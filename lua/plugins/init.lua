@@ -25,7 +25,7 @@ require('packer').startup(function(use)
         
         -- 'run' specifies a command to be run after the plugin is installed. ':TSUpdate' ensures that
         -- the tree-sitter parsers are always up-to-date.
-        run = ':TSUpdate'
+         run = ':TSUpdate'
     } 
 
     -- Requires for different plugins

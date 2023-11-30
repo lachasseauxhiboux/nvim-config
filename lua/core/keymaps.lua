@@ -66,10 +66,35 @@ keymap('n', '<leader>n', toggle_tree, opts)
 -- Terminal
 local function open_terminal_in_file_dir()
   local path = vim.fn.expand('%:p:h')
-  vim.fn.system('gnome-terminal --working-directory=' .. path)
+  if vim.fn.executable('gnome-terminal') == 1 then
+    vim.fn.system('gnome-terminal --tab --working-directory=' .. path)
+  elseif vim.fn.executable('xfce4-terminal') == 1 then
+    vim.fn.system('xfce4-terminal --tab --working-directory=' .. path)
+  else
+    print("there is no terminal")
+  end
 end
 
 keymap('n', '<leader>t', open_terminal_in_file_dir, opts)
+
+-- File manager
+local function open_file_manager_in_current_dir()
+  local path = vim.fn.expand('%:p:h')
+
+  if vim.fn.executable('nautilus') == 1 then
+    vim.fn.system('nautilus ' .. path)
+  elseif vim.fn.executable('thunar') == 1 then
+    vim.fn.system('thunar ' .. path)
+  elseif vim.fn.executable('nemo') == 1 then
+    vim.fn.system('nemo ' .. path)
+  elseif vim.fn.executable('dolphin') == 1 then
+    vim.fn.system('dolphin ' .. path)
+  else
+    print("There is no FM")
+  end
+end
+
+keymap('n', '<leader>fm', open_file_manager_in_current_dir, opts)
 
 -- Clipboard
 local function copy_with_line_breaks()
